@@ -1,0 +1,13 @@
+.home-box{
+    display: flex;
+    /* display: grid;
+    grid-template-columns: 300px calc(100vw - 300px);
+    grid-template-rows: calc(100vh - 70px); */
+}
+.LoginTop{
+    background-image: url('../images/loginBG.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 100wh;
+}
