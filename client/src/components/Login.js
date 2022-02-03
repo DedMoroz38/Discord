@@ -22,6 +22,9 @@ const Login = () => {
     const [error, setError] = useState(false);
     const [notRegistered, setNotRegistered] = useState(false);
 
+    const [userId, setUserId] = useState(0);
+    const [userName, setUserName] = useState('');
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -57,7 +60,8 @@ const Login = () => {
                 setLoginStatus(true);
                 setNotRegistered(false);
                 console.log("Fine");
-                dispatch(login());
+                setUserId(result[0].id);
+                setUserName(result[0].userName);
                 navigate('/');
             } else if (res.data.message === "Wrong password!") {
                 console.log('wrong password');
@@ -66,6 +70,10 @@ const Login = () => {
             }
         }
     }
+    useEffect(() => {
+        console.log('fefef')
+        dispatch(login({ id: userId, name: userName }));
+    }, [userName]);
 
     return (
         <div className="form-box">

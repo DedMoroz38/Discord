@@ -154,6 +154,12 @@
     align-items: center;
     justify-content: flex-start;
 }
+.friendsHeadingBox > h2{
+    font-size: 17px;
+    font-weight: 5,00;
+    margin-bottom: 30px;
+    color: white;
+}
 .friendsInputBox{
     width: 100%;
     display: flex;
@@ -163,6 +169,8 @@
     background: rgb(34, 34, 44);
     border-radius: 0 4px 4px 0;
     color: white;
+    padding-right: 10px;
+    cursor: pointer;
 }
 .friendsInputBox > input{
     box-sizing: border-box;
@@ -177,9 +185,39 @@
     border-radius: 4px 0 0 4px;
     width: 100%;
 }
+.foundFriends{
+    margin-top: 10px;
+    list-style-type: none;
+    width: 100%;
+}
+.FoundFriend{
+    font-weight: 500;
+    background: #3d4c5f;
+    font-size: 20px;
+    padding: 10px;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    border-radius: 3px;
+    justify-content: center;
+    color: #C5C6C7;
+    margin-bottom: 20px;
+}
+.FoundFriend > button{
+    cursor: pointer;
+    margin-left: 20px;
+    background: none;
+    border: none;
+    color: white;
+}
 
 
-
+hr{
+    width:100%;
+    border: none;
+    border-bottom: 1px solid black;
+    margin-top: 10px;
+}
 
 
 .chat-box{

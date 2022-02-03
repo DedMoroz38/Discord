@@ -28,6 +28,9 @@ const Registration = () => {
     const [emailError, setEmailError] = useState(false);
     const [userError, setUserError] = useState(false);
 
+    const [userId, setUserId] = useState(0);
+    const [UName, setUName] = useState('');
+
     let navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -78,6 +81,7 @@ const Registration = () => {
 
     const handleData = (respond) => {
         console.log(respond);
+        const result = respond.data.result;
         if (respond.data.err) {
             if (respond.data.err.sqlMessage.includes('email_UNIQUE')) {
                 setEmailError(true);
@@ -94,11 +98,14 @@ const Registration = () => {
             console.log('YEEEEEY!');
             setEmailError(false);
             setUserError(false);
-            dispatch(login());
+            setUserId(result[0].id);
+            setUName(result[0].userName);
             navigate('/');
         }
     }
-
+    useEffect(() => {
+        dispatch(login({ id: userId, name: userName }));
+    }, [UName]);
 
 
     return (

@@ -21,9 +21,9 @@ const Friends = () => {
                     <p className="addFriendText">Friends</p>
                 </div>
                 <NavLink to="/friends/all" className="friendsRoutes">All</NavLink>
-                <NavLink to="/friends/waiting" className="friendsRoutes">Waiting</NavLink>
+                <NavLink to="/friends/pending" className="friendsRoutes">Pending</NavLink>
                 <NavLink to="/friends/requests" className="friendsRoutes">Requests</NavLink>
-                <NavLink to="/friends/add" className="friendsRoutes">Add friend</NavLink>
+                <NavLink to="/friends/add" className="friendsRoutes">Add Friend</NavLink>
             </div>
             <div>
                 <FriendsMenu />

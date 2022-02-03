@@ -17,8 +17,8 @@ const FriendsMenu = () => {
         <div className="allFriendsMenu">
             <Routes>
                 <Route path="/all" element={<AllFriends />} />
-                <Route path="/waiting" element={<WaitingFriends />} />
-                <Route path="/waiting" element={<RequestFriends />} />
+                <Route path="/pending" element={<WaitingFriends />} />
+                <Route path="/requests" element={<RequestFriends />} />
                 <Route path="/add" element={<AddFriends />} />
             </Routes>
         </div>

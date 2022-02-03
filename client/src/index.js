@@ -12,13 +12,13 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 ReactDOM.render(
   <Provider store={store}>
-    <PersistGate loading={<CircularProgress />} persistor={persistedStore}>
-      <React.StrictMode>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </React.StrictMode>
-    </PersistGate>
+    {/* <PersistGate loading={<CircularProgress />} persistor={persistedStore}> */}
+    <React.StrictMode>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </React.StrictMode>
+    {/* </PersistGate> */}
   </Provider>,
   document.getElementById('root')
 );

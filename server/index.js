@@ -46,19 +46,14 @@ app.post('/login', (req, res) => {
     const password = req.body.password;
 
     const sqlInsert = 'SELECT * FROM emails WHERE email = ?;'
-    console.log(email, password);
     db.query(sqlInsert, [email],
         async (err, result) => {
-            console.log(1);
             if (err) {
-                console.log(0);
                 res.send({
                     message: "Error!",
                     err: err
-                })
+                });
             } else if (result) {
-                console.log(-1);
-                console.log(result);
                 if (result.length === 0) {
                     res.send({
                         message: "Account doesn't exist!",
@@ -66,14 +61,12 @@ app.post('/login', (req, res) => {
                     })
                 } else {
                     const validPass = await bcrypt.compare(password, result[0].password);
-                    console.log(validPass);
                     if (validPass) {
                         res.send({
                             message: "OK",
                             result
                         })
                     } else {
-                        console.log(result);
                         res.send({
                             message: "Wrong password!",
                             result
@@ -86,7 +79,53 @@ app.post('/login', (req, res) => {
             }
         });
 });
+app.post('/searchFriend', (req, res) => {
+    console.log(1);
+    const username = req.body.username;
 
+
+    const sqlInsert = 'SELECT * FROM emails WHERE userName = ?;'
+    db.query(sqlInsert, [username],
+        (err, result) => {
+            if (err) {
+                res.send({
+                    message: "Error!",
+                    err: err
+                });
+            } else {
+                res.send({
+                    message: "Fine!",
+                    result
+                });
+            }
+
+
+
+        });
+});
+
+app.post('/requesFriend', (req, res) => {
+    console.log(1);
+    const friendId = req.body.friendId;
+    const userId = req.body.userId;
+
+    const sqlInsert = 'INSERT INTO user_friend (source_id, target_id, status) VALUES (?,?,0);'
+    db.query(sqlInsert, [userId, friendId],
+        (err, result) => {
+            if (err) {
+                res.send({
+                    message: "Error!",
+                    err: err
+                });
+            } else {
+                res.send({
+                    message: "Fine!",
+                    result
+                });
+            }
+        }
+    );
+});
 
 
 
