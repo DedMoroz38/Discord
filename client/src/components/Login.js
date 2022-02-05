@@ -71,7 +71,6 @@ const Login = () => {
         }
     }
     useEffect(() => {
-        console.log('fefef')
         dispatch(login({ id: userId, name: userName }));
     }, [userName]);
 

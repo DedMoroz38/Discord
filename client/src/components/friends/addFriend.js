@@ -5,26 +5,55 @@ import axios from 'axios';
 import { useState, useEffect } from "react";
 import DoneIcon from '@mui/icons-material/Done';
 import { useSelector } from "react-redux";
+import { useDispatch } from 'react-redux';
+import { requestFriend } from '../../store/friends/action.js';
+import { selectRequests } from "../../store/friends";
+import { selectPending } from "../../store/friends";
+import { selectFriends } from "../../store/friends";
 
 
 
 const AddFriends = () => {
-    const [username, setUsername] = useState('');
+    const requestedFriends = useSelector((state) => state.friends.friends.requestedFriends);
+    const friends = useSelector((state) => state.friends.friends.friends);
+    const dispatch = useDispatch();
+
+    const [friendName, setFriendName] = useState('');
     const [error, setError] = useState(false);
     const [friend, setFriend] = useState([]);
+    const [errorMessage, setErrorMessage] = useState("Hm, didn't work. Double check that the capitalization, spelling, any space, and numbers are correct.");
 
-    const userId = useSelector((state) => state.id.id);
+    const userId = useSelector((state) => state.name.id);
+    const userName = useSelector((state) => state.name.name);
 
 
     const searchFriend = () => {
-        if (username.length > 0) {
-            searchInDB();
+        if (friendName.length > 0) {
+            console.log(friends.includes(friendName));
+            if (userName === friendName) {
+                setError(true);
+            } else if (friends.includes(friendName)) {
+                setFriend([]);
+                setErrorMessage(`${friendName} is already your friend`);
+                setError(true);
+                console.log('Nooooooo1');
+            } else if (requestedFriends.includes(friendName)) {
+                setFriend([]);
+                setErrorMessage(`You have already requested ${friendName} to be yuor friend!`);
+                setError(true);
+                console.log('Nooooooo2');
+            }
+            else {
+                setError(false);
+                searchInDB();
+            }
         }
     }
     const searchInDB = () => {
         axios.post('http://localhost:3001/searchFriend',
             {
-                username: `${username}`
+                friendName: `${friendName}`,
+                userName: userName
             }).then((res) => {
                 handleData(res);
             });
@@ -37,8 +66,9 @@ const AddFriends = () => {
             if (result.length > 0) {
                 setFriend([]);
                 setError(false);
-                setFriend([...friend, { userName: result[0].userName, id: result[0].id }]);
+                setFriend([{ userName: result[0].userName, id: result[0].id }]);
             } else {
+                setErrorMessage("Hm, didn't work. Double check that the capitalization, spelling, any space, and numbers are correct.");
                 setError(true);
                 setFriend([]);
             }
@@ -57,8 +87,9 @@ const AddFriends = () => {
     }
     const handleRequestData = (res) => {
         console.log(res);
-        if (res.data.result) {
-            console.log('sent');
+        const result = res;
+        if (result) {
+            dispatch(requestFriend(friend));
         } else {
             alert('Unknown Error!')
         }
@@ -72,14 +103,14 @@ const AddFriends = () => {
             <div className="friendsInputBox">
                 <input
                     onChange={(e) => {
-                        setUsername(e.target.value);
+                        setFriendName(e.target.value);
                     }}
                     placeholder="Input username"
                     type='text'
                 ></input>
                 <button onClick={() => { searchFriend() }}><SearchIcon /></button>
             </div>
-            <p className={`${error ? "passwordErrorMessage" : "trigger"}`}>Hm, didn't work. Double check that the capitalization, spelling, any space, and numbers are correct.</p>
+            <p className={`${error ? "passwordErrorMessage" : "trigger"}`}>{errorMessage}</p>
             <hr />
             <ul className="foundFriends">
                 {friend.map((item, id) => (

@@ -10,7 +10,6 @@ const inintialChatState = {
 const loginReducer = (state = inintialChatState, action) => {
     switch (action.type) {
         case SET_LOGINED: {
-            console.log(action.payload.name);
             return {
                 ...state,
                 loginStatus: true,
