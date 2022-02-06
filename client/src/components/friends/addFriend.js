@@ -23,37 +23,40 @@ const AddFriends = () => {
     const [friend, setFriend] = useState([]);
     const [errorMessage, setErrorMessage] = useState("Hm, didn't work. Double check that the capitalization, spelling, any space, and numbers are correct.");
 
-    const userId = useSelector((state) => state.name.id);
-    const userName = useSelector((state) => state.name.name);
+    const userId = useSelector((state) => state.loginStatus.id);
+    const userName = useSelector((state) => state.loginStatus.name);
 
 
     const searchFriend = () => {
+        const requestedFriendsArray = [];
+        for (let elem of requestedFriends) {
+            requestedFriendsArray.push(elem.userName);
+        }
         if (friendName.length > 0) {
-            console.log(friends.includes(friendName));
             if (userName === friendName) {
-                setError(true);
+                setErrorMessage("Hm, didn't work. Double check that the capitalization, spelling, any space, and numbers are correct.");
+                updateError();
             } else if (friends.includes(friendName)) {
-                setFriend([]);
                 setErrorMessage(`${friendName} is already your friend`);
-                setError(true);
-                console.log('Nooooooo1');
-            } else if (requestedFriends.includes(friendName)) {
-                setFriend([]);
-                setErrorMessage(`You have already requested ${friendName} to be yuor friend!`);
-                setError(true);
-                console.log('Nooooooo2');
-            }
-            else {
+                updateError();
+            } else if (requestedFriendsArray.includes(friendName)) {
+                setErrorMessage(`You've requested ${friendName} to be your friend!`);
+                updateError();
+            } else {
                 setError(false);
                 searchInDB();
             }
         }
     }
+    const updateError = () => {
+        console.log(1);
+        setFriend([]);
+        setError(true);
+    }
     const searchInDB = () => {
         axios.post('http://localhost:3001/searchFriend',
             {
                 friendName: `${friendName}`,
-                userName: userName
             }).then((res) => {
                 handleData(res);
             });
@@ -77,6 +80,7 @@ const AddFriends = () => {
         }
     }
     const requesFriend = () => {
+        setFriend([]);
         axios.post('http://localhost:3001/requesFriend',
             {
                 friendId: friend[0].id,

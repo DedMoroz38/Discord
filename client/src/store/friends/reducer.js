@@ -1,4 +1,4 @@
-import { REQUEST_FRIEND, PENDING_FRIEND } from './action';
+import { REQUEST_FRIEND, PENDING_FRIEND, DELETE_PANDING_FRIEND } from './action';
 
 const inintialMessageState = {
     friends: {
@@ -27,6 +27,18 @@ const friendsReducer = (state = inintialMessageState, action) => {
             const pendingFriend = {
                 friends: [...state.friends.friends],
                 pendingFriends: [...state.friends.pendingFriends, ...friendInfo],
+                requestedFriends: [...state.friends.requestedFriends]
+            }
+            return {
+                friends: pendingFriend
+            }
+        }
+        case DELETE_PANDING_FRIEND: {
+            const friendInfo = action.payload;
+            const newList = state.friends.pendingFriends.filter(item => item.id != friendInfo.id);
+            const pendingFriend = {
+                friends: [...state.friends.friends],
+                pendingFriends: [...newList],
                 requestedFriends: [...state.friends.requestedFriends]
             }
             return {

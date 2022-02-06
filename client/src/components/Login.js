@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../store/login/actions.js';
 
 
-
+let toggle = false;
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -71,7 +71,11 @@ const Login = () => {
         }
     }
     useEffect(() => {
-        dispatch(login({ id: userId, name: userName }));
+        if (toggle) {
+            dispatch(login({ id: userId, name: userName }));
+        } else {
+            toggle = true
+        }
     }, [userName]);
 
     return (

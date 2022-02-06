@@ -82,12 +82,11 @@ app.post('/login', (req, res) => {
 });
 app.post('/searchFriend', (req, res) => {
     console.log(1);
-    const userName = req.body.userName;
     const friendName = req.body.friendName;
 
 
-    const sqlInsert = 'SELECT * FROM emails WHERE userName = ? AND userName != ?;'
-    db.query(sqlInsert, [friendName, userName],
+    const sqlInsert = 'SELECT * FROM emails WHERE userName = ?;'
+    db.query(sqlInsert, [friendName],
         (err, result) => {
             if (err) {
                 res.send({
@@ -178,6 +177,29 @@ app.post('/getPandingFriends', (req, res) => {
 
     const sqlInsert = 'SELECT * FROM emails WHERE id IN (SELECT source_id FROM user_friends WHERE target_id = ? AND status = 0);';
     db.query(sqlInsert, [target_id],
+        (err, result) => {
+            if (err) {
+                res.send({
+                    status: 0,
+                    err: err
+                });
+            } else {
+                res.send({
+                    status: 1,
+                    result
+                });
+            }
+
+        }
+    );
+});
+
+app.post('/addFriend', (req, res) => {
+    const friendId = req.body.friendId;
+    const userId = req.body.userId;
+
+    const sqlInsert = 'UPDATE user_friends SET status = 1 WHERE source_id = ? AND target_id = ?';
+    db.query(sqlInsert, [friendId, userId],
         (err, result) => {
             if (err) {
                 res.send({

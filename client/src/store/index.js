@@ -9,7 +9,7 @@ import thunk from 'redux-thunk';
 import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
 import storage from 'redux-persist/lib/storage';
-import friends from './friends/reducer';
+import friendsReducer from './friends/reducer';
 
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -23,8 +23,7 @@ const allReducers = combineReducers({
     messages: messageReducer,
     chats: chatReducer,
     loginStatus: loginReducer,
-    name: name,
-    friends: friends,
+    friends: friendsReducer,
 });
 
 // const persistedReducer = persistReducer(persistConfig, allReducers);

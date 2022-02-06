@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from "react-redux";
 import { useDispatch } from 'react-redux';
-import { pandingFriend } from '../../store/friends/action';
+import { pandingFriend, requestFriend } from '../../store/friends/action';
 
 
 const Home = () => {
@@ -24,7 +24,7 @@ const Home = () => {
                 {
                     source_id: userInfo.id
                 }).then((res) => {
-                    console.log(res, 1);
+                    dispatch(requestFriend(res));
                 });
 
             axios.post('http://localhost:3001/getRequestedFriends',
@@ -44,7 +44,6 @@ const Home = () => {
                         delete elem.password;
                         data.push(elem);
                     }
-                    console.log(data);
                     dispatch(pandingFriend(data));
                 });
             setGet(false);
