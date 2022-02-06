@@ -1,4 +1,4 @@
-import { REQUEST_FRIEND } from './action';
+import { REQUEST_FRIEND, PENDING_FRIEND } from './action';
 
 const inintialMessageState = {
     friends: {
@@ -20,6 +20,17 @@ const friendsReducer = (state = inintialMessageState, action) => {
             }
             return {
                 friends: requestFriend
+            }
+        }
+        case PENDING_FRIEND: {
+            const friendInfo = action.payload;
+            const pendingFriend = {
+                friends: [...state.friends.friends],
+                pendingFriends: [...state.friends.pendingFriends, ...friendInfo],
+                requestedFriends: [...state.friends.requestedFriends]
+            }
+            return {
+                friends: pendingFriend
             }
         }
         default: {

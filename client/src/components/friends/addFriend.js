@@ -113,8 +113,8 @@ const AddFriends = () => {
             <p className={`${error ? "passwordErrorMessage" : "trigger"}`}>{errorMessage}</p>
             <hr />
             <ul className="foundFriends">
-                {friend.map((item, id) => (
-                    <li key={id} className="FoundFriend">
+                {friend.map((item, index) => (
+                    <li key={index} className="FoundFriend">
                         <p className="friendsName">{item.userName}</p>
                         <button onClick={() => { requesFriend() }}><DoneIcon /></button>
                     </li>

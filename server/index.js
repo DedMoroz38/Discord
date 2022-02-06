@@ -11,6 +11,7 @@ const db = mysql.createConnection({
     port: "3306",
     password: "password",
     database: "sys",
+    multipleStatements: true
 });
 
 app.use(cors());
@@ -175,7 +176,7 @@ app.post('/getRequestedFriends', (req, res) => {
 app.post('/getPandingFriends', (req, res) => {
     const target_id = req.body.target_id;
 
-    const sqlInsert = 'SELECT * FROM emails WHERE id = (SELECT source_id FROM user_friends WHERE target_id = ? AND status = 0);';
+    const sqlInsert = 'SELECT * FROM emails WHERE id IN (SELECT source_id FROM user_friends WHERE target_id = ? AND status = 0);';
     db.query(sqlInsert, [target_id],
         (err, result) => {
             if (err) {

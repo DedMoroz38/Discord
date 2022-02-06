@@ -1,4 +1,5 @@
 export const REQUEST_FRIEND = 'REQUEST_FRIEND';
+export const PENDING_FRIEND = 'PENDING_FRIEND';
 
 export const requestFriend = (friendInfo) => ({
     type: REQUEST_FRIEND,
@@ -6,6 +7,6 @@ export const requestFriend = (friendInfo) => ({
 });
 
 export const pandingFriend = (friendInfo) => ({
-    type: REQUEST_FRIEND,
+    type: PENDING_FRIEND,
     payload: friendInfo
 });
