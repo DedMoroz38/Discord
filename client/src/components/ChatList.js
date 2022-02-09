@@ -12,7 +12,7 @@ import { addMessage } from "../store/messages";
 import axios from 'axios';
 import discordIcon from '../images/discordIcon.png';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-
+import SettingsIcon from '@mui/icons-material/Settings';
 
 
 const Chatlist = ({ chats, addChat }) => {
@@ -94,6 +94,18 @@ const Chatlist = ({ chats, addChat }) => {
                     )
                     )}
                 </ul>
+                <div className="userBar" style={{
+                    position: 'absolute',
+                    height: '60px',
+                    width: '255px',
+                    bottom: '0',
+                    background: "#232c36"
+                }}>
+                    <div>
+                        <img src={img} alt='profile_image' />
+                    </div>
+                    <div><SettingsIcon /></div>
+                </div>
             </div>
         </div>
     )

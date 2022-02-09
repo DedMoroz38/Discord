@@ -1,4 +1,4 @@
-import { REQUEST_FRIEND, PENDING_FRIEND, DELETE_PANDING_FRIEND } from './action';
+import { REQUEST_FRIEND, PENDING_FRIEND, DELETE_PANDING_FRIEND, ADD_FRIEND } from './action';
 
 const inintialMessageState = {
     friends: {
@@ -13,6 +13,7 @@ const friendsReducer = (state = inintialMessageState, action) => {
     switch (action.type) {
         case REQUEST_FRIEND: {
             const friendInfo = action.payload;
+            console.log(1, friendInfo);
             const requestFriend = {
                 friends: [...state.friends.friends],
                 pendingFriends: [...state.friends.pendingFriends],
@@ -31,6 +32,17 @@ const friendsReducer = (state = inintialMessageState, action) => {
             }
             return {
                 friends: pendingFriend
+            }
+        }
+        case ADD_FRIEND: {
+            const friendInfo = action.payload;
+            const allFriends = {
+                friends: [...state.friends.friends, ...friendInfo],
+                pendingFriends: [...state.friends.pendingFriends],
+                requestedFriends: [...state.friends.requestedFriends]
+            }
+            return {
+                friends: allFriends
             }
         }
         case DELETE_PANDING_FRIEND: {

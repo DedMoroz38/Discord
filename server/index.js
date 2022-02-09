@@ -85,7 +85,7 @@ app.post('/searchFriend', (req, res) => {
     const friendName = req.body.friendName;
 
 
-    const sqlInsert = 'SELECT * FROM emails WHERE userName = ?;'
+    const sqlInsert = 'SELECT userName, id FROM emails WHERE userName = ?;'
     db.query(sqlInsert, [friendName],
         (err, result) => {
             if (err) {
@@ -131,7 +131,7 @@ app.post('/requesFriend', (req, res) => {
 app.post('/getFriends', (req, res) => {
     const source_id = req.body.source_id;
 
-    const sqlInsert = 'SELECT * FROM emails WHERE id = (SELECT target_id FROM user_friends WHERE source_id = ? AND status = 1);';
+    const sqlInsert = 'SELECT userName, id FROM emails WHERE id IN (SELECT source_id FROM user_friends WHERE target_id = ? AND status = 1);';
     db.query(sqlInsert, [source_id],
         (err, result) => {
             if (err) {
@@ -153,7 +153,7 @@ app.post('/getFriends', (req, res) => {
 app.post('/getRequestedFriends', (req, res) => {
     const source_id = req.body.source_id;
 
-    const sqlInsert = 'SELECT * FROM emails WHERE id = (SELECT target_id FROM user_friends WHERE source_id = ? AND status = 0);';
+    const sqlInsert = 'SELECT userName, id FROM emails WHERE id = (SELECT target_id FROM user_friends WHERE source_id = ? AND status = 0);';
     db.query(sqlInsert, [source_id],
         (err, result) => {
             if (err) {
@@ -175,7 +175,7 @@ app.post('/getRequestedFriends', (req, res) => {
 app.post('/getPandingFriends', (req, res) => {
     const target_id = req.body.target_id;
 
-    const sqlInsert = 'SELECT * FROM emails WHERE id IN (SELECT source_id FROM user_friends WHERE target_id = ? AND status = 0);';
+    const sqlInsert = 'SELECT userName, id FROM emails WHERE id IN (SELECT source_id FROM user_friends WHERE target_id = ? AND status = 0);';
     db.query(sqlInsert, [target_id],
         (err, result) => {
             if (err) {

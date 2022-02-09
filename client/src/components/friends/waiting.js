@@ -1,20 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import '../components.css';
 import { useSelector, useDispatch } from "react-redux";
 import DoneIcon from '@mui/icons-material/Done';
 import axios from 'axios';
-import { deletePandingFriend } from '../../store/friends/action'
+import { deletePandingFriend } from '../../store/friends/action';
+import { pandingFriend } from '../../store/friends/action';
+
 
 const WaitingFriends = () => {
-    const pendingFriens = useSelector((state) => state.friends.friends.pendingFriends);
-    const userId = useSelector((state) => state.loginStatus.id);
+    const userInfo = useSelector((state) => state.loginStatus);
+    const [paddingFriends, setPaddingFriends] = useState([]);
     const dispatch = useDispatch();
 
     const AddFriend = (item) => {
+        setPaddingFriends([]);
         axios.post('http://localhost:3001/addFriend',
             {
                 friendId: item.id,
-                userId: userId
+                userId: userInfo.id
             }).then((res) => {
                 if (res.data.status === 1) {
                     dispatch(deletePandingFriend(item));
@@ -23,11 +26,24 @@ const WaitingFriends = () => {
                 }
             });
     }
+    useEffect(() => {
+        axios.post('http://localhost:3001/getPandingFriends',
+            {
+                target_id: userInfo.id
+            }).then((res) => {
+                const result = res.data.result;
+                console.log(result);
+                if (result.length > 0) {
+                    setPaddingFriends(result);
+                    dispatch(pandingFriend(result));
+                }
+            });
+    }, []);
 
     return (
         <div className="allFriendsBox">
             <ul className="foundFriends">
-                {pendingFriens.map((item, index) => (
+                {paddingFriends.map((item, index) => (
                     <li key={index} className="FoundFriend">
                         <p className="friendsName">{item.userName}</p>
                         <button onClick={() => { AddFriend(item) }}><DoneIcon /></button>

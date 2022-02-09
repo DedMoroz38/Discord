@@ -9,12 +9,12 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from "react-redux";
 import { useDispatch } from 'react-redux';
-import { pandingFriend, requestFriend } from '../../store/friends/action';
+import { pandingFriend, requestFriend, addFriend } from '../../store/friends/action';
 
 
 const Home = () => {
     const dispatch = useDispatch();
-    const userInfo = useSelector((state) => state.loginStatus);
+    const userInfo = useSelector((state) => state.loginStatus.id);
     const [get, setGet] = useState(true);
     console.log(userInfo);
 
@@ -24,7 +24,12 @@ const Home = () => {
                 {
                     source_id: userInfo.id
                 }).then((res) => {
-                    dispatch(requestFriend(res));
+                    const result = res.data.result;
+                    console.log(result);
+                    if (result.length > 0) {
+                        console.log(result);
+                        dispatch(addFriend(result));
+                    }
                 });
 
             axios.post('http://localhost:3001/getRequestedFriends',
@@ -32,19 +37,6 @@ const Home = () => {
                     source_id: userInfo.id
                 }).then((res) => {
                     console.log(res, 2);
-                });
-            axios.post('http://localhost:3001/getPandingFriends',
-                {
-                    target_id: userInfo.id
-                }).then((res) => {
-                    console.log(res);
-                    const data = []
-                    for (const elem of res.data.result) {
-                        delete elem.email;
-                        delete elem.password;
-                        data.push(elem);
-                    }
-                    dispatch(pandingFriend(data));
                 });
             setGet(false);
         }

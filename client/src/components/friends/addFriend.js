@@ -28,9 +28,11 @@ const AddFriends = () => {
 
 
     const searchFriend = () => {
-        const requestedFriendsArray = [];
-        for (let elem of requestedFriends) {
-            requestedFriendsArray.push(elem.userName);
+        let friendsCheckList = [];
+        const AllFriends = [...friends, ...requestedFriends];
+        console.log(AllFriends);
+        for (let elem of AllFriends) {
+            friendsCheckList.push(elem.userName);
         }
         if (friendName.length > 0) {
             if (userName === friendName) {
@@ -39,8 +41,8 @@ const AddFriends = () => {
             } else if (friends.includes(friendName)) {
                 setErrorMessage(`${friendName} is already your friend`);
                 updateError();
-            } else if (requestedFriendsArray.includes(friendName)) {
-                setErrorMessage(`You've requested ${friendName} to be your friend!`);
+            } else if (friendsCheckList.includes(friendName)) {
+                setErrorMessage(`You've requested ${friendName} to be your friend or he already is!`);
                 updateError();
             } else {
                 setError(false);
@@ -79,7 +81,7 @@ const AddFriends = () => {
             alert('Error!');
         }
     }
-    const requesFriend = () => {
+    const requesFriendship = () => {
         setFriend([]);
         axios.post('http://localhost:3001/requesFriend',
             {
@@ -87,6 +89,7 @@ const AddFriends = () => {
                 userId: userId
             }).then((res) => {
                 handleRequestData(res);
+                console.log(1);
             });
     }
     const handleRequestData = (res) => {
@@ -95,7 +98,7 @@ const AddFriends = () => {
         if (result) {
             dispatch(requestFriend(friend));
         } else {
-            alert('Unknown Error!')
+            alert('Unknown Error!');
         }
     }
 
@@ -120,7 +123,7 @@ const AddFriends = () => {
                 {friend.map((item, index) => (
                     <li key={index} className="FoundFriend">
                         <p className="friendsName">{item.userName}</p>
-                        <button onClick={() => { requesFriend() }}><DoneIcon /></button>
+                        <button onClick={() => { requesFriendship() }}><DoneIcon /></button>
                     </li>
                 )
                 )}
